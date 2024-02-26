@@ -1,0 +1,86 @@
+<div *ngIf="!isSignedIn" class="example-container">
+  <form #signUpForm="ngForm" (ngSubmit)="signUpForm.valid && onSubmit(signUpForm)">
+    <h5>Sign Up</h5>
+      <mat-form-field>
+        <input matInput type="text" #fullName="ngModel" [(ngModel)]="userService.selectedUser.fullName" name="fullName" placeholder="Full Name" required
+          [ngClass]="{'invalid-textbox': signUpForm.submitted && !fullName.valid}">
+        <div *ngIf="signUpForm.submitted && !fullName.valid">
+          <mat-error>This field is required.</mat-error>
+        </div>
+      </mat-form-field>
+    
+      <mat-form-field>
+        <input matInput type="text" #email="ngModel" [(ngModel)]="userService.selectedUser.email" name="email" placeholder="Email" required
+          [pattern]="emailRegex" [ngClass]="{'invalid-textbox': signUpForm.submitted && !email.valid}">
+          <div *ngIf="signUpForm.submitted && email.errors">
+              <mat-error *ngIf="email.errors['required']">This field is required.</mat-error>
+              <mat-error *ngIf="email.errors['pattern']">Invalid email address.</mat-error>
+            </div>
+      </mat-form-field>
+    
+      <mat-form-field>
+        <input matInput type="password" #password="ngModel" [(ngModel)]="userService.selectedUser.password" name="password" placeholder="Password"
+          minlength="4" required [ngClass]="{'invalid-textbox': signUpForm.submitted && !password.valid}">
+        <div *ngIf="signUpForm.submitted && password.errors">
+          <mat-error *ngIf="password.errors['required']">This field is required.</mat-error>
+          <mat-error *ngIf="password.errors['minlength']">Enter at least 4 characters.</mat-error>
+        </div>
+      </mat-form-field>
+    
+      <button mat-raised-button type="submit" color="primary">Sign Up</button>
+      <div class="center-container">
+        <button type="button" class="new-user" mat-raised-button (click)="onNewUser(signUpForm)">Already have an account? Sign In</button>
+      </div>
+      <!-- Success message -->
+      <div class="success" *ngIf="showSucessMessage">
+        Saved successfully
+      </div>
+      
+      <!-- Error message -->
+      <div class="alert" *ngIf="serverErrorMessages">
+        {{serverErrorMessages}}
+      </div>
+    </form>
+  </div>
+  
+    <div *ngIf="isSignedIn" class="example-container">
+    <form #signUpForm="ngForm" (ngSubmit)="signUpForm.valid && onSignIn(signUpForm)">
+      <h5>Sign In</h5>
+      
+        <mat-form-field>
+          <input matInput type="text" #email="ngModel" [(ngModel)]="userService.selectedUser.email" name="email" placeholder="Email" required
+            [pattern]="emailRegex" [ngClass]="{'invalid-textbox': signUpForm.submitted && !email.valid}">
+            <div *ngIf="signUpForm.submitted && email.errors">
+                <mat-error *ngIf="email.errors['required']">This field is required.</mat-error>
+                <mat-error *ngIf="email.errors['pattern']">Invalid email address.</mat-error>
+              </div>
+        </mat-form-field>
+      
+        <mat-form-field>
+          <input matInput type="password" #password="ngModel" [(ngModel)]="userService.selectedUser.password" name="password" placeholder="Password"
+            minlength="4" required [ngClass]="{'invalid-textbox': signUpForm.submitted && !password.valid}">
+          <div *ngIf="signUpForm.submitted && password.errors">
+            <mat-error *ngIf="password.errors['required']">This field is required.</mat-error>
+            <mat-error *ngIf="password.errors['minlength']">Enter at least 4 characters.</mat-error>
+          </div>
+        </mat-form-field>
+      
+        <button mat-raised-button type="submit" color="primary">Sign In</button>
+        <div class="center-container">
+          <button class="new-user" type="button" mat-raised-button (click)="onNewUser(signUpForm)">
+            Create a new account?
+          </button>
+        </div>
+        <!-- Success message -->
+        <div class="success" *ngIf="showSucessMessage">
+          Logged In successfully
+        </div>
+        
+        <!-- Error message -->
+        <div class="alert" *ngIf="serverErrorMessages">
+          {{serverErrorMessages}}
+        </div>
+      </form>
+      </div>
+
+      <!-- <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button> -->

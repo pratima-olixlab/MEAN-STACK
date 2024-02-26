@@ -1,0 +1,89 @@
+
+<mat-card>
+  <mat-card-content class="text-white">
+    <div class="row">
+      <div class="col-5">
+        <form #employeeForm="ngForm"  (ngSubmit)="onSubmit(employeeForm)">
+          <input type="hidden" name="_id" [(ngModel)]="employeeService.selectedEmployee._id">
+          <div class="row">
+            <div class="input-field col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Name: <span class="red-text">*</span></mat-label>
+                <input matInput type="text" name="name" [(ngModel)]="employeeService.selectedEmployee.name" placeholder="Enter full name" required>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Position:</mat-label>
+                <input matInput type="text" name="position" [(ngModel)]="employeeService.selectedEmployee.position" placeholder="Eg: Snr. Developer">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Office:</mat-label>
+                <input matInput type="text" name="office" [(ngModel)]="employeeService.selectedEmployee.office" placeholder="Enter office location">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Salary:</mat-label>
+                <input matInput type="text" name="salary" [(ngModel)]="employeeService.selectedEmployee.salary" placeholder="Salary per annum">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col-12">
+              <button mat-raised-button color="primary" type="button" (click)="resetForm()">Reset</button>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!employeeForm.valid">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="employeeService.employees" class="mat-elevation-z8">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let emp">{{ emp.name }}</td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Position</th>
+      <td mat-cell *matCellDef="let emp">{{ emp.position }}</td>
+    </ng-container>
+
+    <!-- Office Column -->
+    <ng-container matColumnDef="office">
+      <th mat-header-cell *matHeaderCellDef>Office</th>
+      <td mat-cell *matCellDef="let emp">{{ emp.office }}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let emp">
+        <a mat-icon-button class="action-btn" (click)="onEdit(emp)">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a mat-icon-button class="action-btn" (click)="onDelete(emp._id, employeeForm)">
+          <mat-icon>delete</mat-icon>
+        </a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<hr><hr>
